@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Complaint App — Home</title>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+<link href="css/style.css" rel="stylesheet"/>
+<style>
+  .page { display:none; min-height:100vh; position:relative; z-index:1; }
+  .page.active { display:flex; }
+
+  /* LANDING */
+  #landingPage { flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:40px 20px; }
+  .brand-logo { font-size:3.5rem; font-weight:900; background:linear-gradient(135deg,var(--pink),var(--purple),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; margin-bottom:8px; animation:glow 2s ease-in-out infinite alternate; letter-spacing:-1px; }
+  .brand-tagline { font-size:1.1rem; color:rgba(255,255,255,0.6); margin-bottom:60px; }
+  .landing-icon { font-size:5rem; margin-bottom:20px; animation:bounce 2s ease-in-out infinite; }
+  .who-label { font-size:1.4rem; font-weight:700; color:rgba(255,255,255,0.85); margin-bottom:36px; letter-spacing:1px; text-transform:uppercase; }
+  .role-cards { display:flex; gap:30px; flex-wrap:wrap; justify-content:center; }
+  .role-card { width:220px; padding:40px 30px; border-radius:24px; border:2px solid transparent; background:var(--card-bg); backdrop-filter:blur(20px); cursor:pointer; transition:all 0.35s cubic-bezier(.34,1.56,.64,1); position:relative; overflow:hidden; }
+  .role-card::before { content:''; position:absolute; inset:0; border-radius:24px; padding:2px; background:linear-gradient(135deg,var(--pink),var(--purple),var(--cyan)); -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:0; transition:opacity 0.3s; }
+  .role-card:hover::before { opacity:1; }
+  .role-card:hover { transform:translateY(-10px) scale(1.04); box-shadow:0 30px 60px rgba(0,0,0,0.4); }
+  .role-card.admin-card:hover { background:rgba(168,85,247,0.2); }
+  .role-card.user-card:hover { background:rgba(6,182,212,0.2); }
+  .role-icon { font-size:3.5rem; margin-bottom:16px; }
+  .role-title { font-size:1.3rem; font-weight:700; margin-bottom:8px; }
+  .role-desc { font-size:0.82rem; color:rgba(255,255,255,0.55); line-height:1.5; }
+  .features-strip { display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-top:60px; }
+  .feature-pill { padding:8px 18px; border-radius:50px; font-size:0.78rem; font-weight:600; background:var(--glass); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,0.15); color:rgba(255,255,255,0.8); }
+
+  /* LOGIN */
+  #loginPage { align-items:center; justify-content:center; padding:40px 20px; flex-direction:column; }
+  .login-card { width:100%; max-width:440px; background:rgba(255,255,255,0.08); backdrop-filter:blur(30px); border-radius:28px; padding:48px 40px; border:1px solid rgba(255,255,255,0.15); box-shadow:0 40px 80px rgba(0,0,0,0.5); animation:slideUp 0.5s ease; }
+  .login-header { text-align:center; margin-bottom:36px; }
+  .login-icon { font-size:3rem; margin-bottom:12px; }
+  .login-title { font-size:1.8rem; font-weight:800; }
+  .login-sub { font-size:0.85rem; color:rgba(255,255,255,0.5); margin-top:4px; }
+  .demo-creds { background:rgba(255,255,255,0.05); border-radius:12px; padding:12px 16px; margin-bottom:24px; font-size:0.78rem; color:rgba(255,255,255,0.5); border:1px solid rgba(255,255,255,0.1); }
+  .demo-creds span { color:var(--yellow); font-weight:600; }
+  .btn-login { width:100%; padding:14px; border-radius:14px; border:none; font-size:1rem; font-weight:700; font-family:'Poppins',sans-serif; cursor:pointer; transition:all 0.3s; margin-top:8px; }
+  .btn-login:hover { transform:translateY(-2px); box-shadow:0 12px 30px rgba(0,0,0,0.3); }
+  .btn-admin-login { background:linear-gradient(135deg,var(--purple),var(--pink)); color:#fff; }
+  .btn-user-login { background:linear-gradient(135deg,var(--cyan),var(--blue)); color:#fff; }
+  .back-link { text-align:center; margin-top:16px; font-size:0.82rem; color:rgba(255,255,255,0.4); cursor:pointer; transition:color 0.2s; }
+  .back-link:hover { color:var(--pink); }
+  .register-link { text-align:center; margin-top:12px; font-size:0.82rem; color:rgba(255,255,255,0.5); }
+  .register-link a { color:var(--cyan); font-weight:600; text-decoration:none; }
+  .register-link a:hover { color:var(--pink); }
+  .form-group { margin-bottom:16px; }
+  .error-msg { color:var(--red); font-size:0.8rem; margin-bottom:10px; display:none; }
+</style>
+</head>
+<body>
+
+<div class="bg-orbs">
+  <div class="orb orb1"></div><div class="orb orb2"></div>
+  <div class="orb orb3"></div><div class="orb orb4"></div>
+</div>
+
+<!-- ===== LANDING PAGE ===== -->
+<div class="page active" id="landingPage">
+  <div style="max-width:700px;width:100%;margin:auto;">
+    <div class="landing-icon">📋</div>
+    <div class="brand-logo">Complaint App</div>
+    <div class="brand-tagline">AI-Enhanced Complaint Tracking System · Fast · Smart · Resolved</div>
+    <div class="who-label">Who are you?</div>
+    <div class="role-cards">
+      <div class="role-card admin-card" onclick="goToLogin('admin')">
+        <div class="role-icon">🛡️</div>
+        <div class="role-title" style="background:linear-gradient(135deg,var(--purple),var(--pink));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Admin</div>
+        <div class="role-desc">Manage all complaints, update statuses, and monitor the system dashboard</div>
+        <div style="margin-top:16px;"><span class="badge-pill badge-admin">Full Access</span></div>
+      </div>
+      <div class="role-card user-card" onclick="goToLogin('user')">
+        <div class="role-icon">👤</div>
+        <div class="role-title" style="background:linear-gradient(135deg,var(--cyan),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">User</div>
+        <div class="role-desc">Submit complaints, track status updates, and view resolution timelines</div>
+        <div style="margin-top:16px;"><span class="badge-pill badge-user">User Access</span></div>
+      </div>
+    </div>
+    <div class="features-strip">
+      <span class="feature-pill">🤖 AI Suggestions</span>
+      <span class="feature-pill">📊 Live Dashboard</span>
+      <span class="feature-pill">🔒 Role Based Access</span>
+      <span class="feature-pill">📸 Image Upload</span>
+      <span class="feature-pill">🕐 Status Timeline</span>
+      <span class="feature-pill">✍️ User Registration</span>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LOGIN PAGE ===== -->
+<div class="page" id="loginPage">
+  <div class="login-card">
+    <div class="login-header">
+      <div class="login-icon" id="loginIcon">🛡️</div>
+      <div class="login-title" id="loginTitle">Admin Login</div>
+      <div class="login-sub" id="loginSub">Sign in to manage complaints</div>
+    </div>
+    <div class="demo-creds">
+      Demo — Username: <span id="demoUser">admin</span> &nbsp;|&nbsp; Password: <span id="demoPass">admin123</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Username</label>
+      <input type="text" class="form-control" id="loginUsername" placeholder="Enter your username" onkeydown="if(event.key==='Enter')doLogin()"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Password</label>
+      <div style="position:relative;">
+        <input type="password" class="form-control" id="loginPassword" placeholder="Enter your password" style="padding-right:44px!important;" onkeydown="if(event.key==='Enter')doLogin()"/>
+        <span onclick="togglePwd()" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);cursor:pointer;color:rgba(255,255,255,0.4);">👁</span>
+      </div>
+    </div>
+    <div id="loginError" class="error-msg"></div>
+    <button class="btn-login btn-admin-login" id="loginBtn" onclick="doLogin()">
+      <i class="fas fa-sign-in-alt"></i> Sign In
+    </button>
+    <!-- Register link — only shows for user login -->
+    <div class="register-link" id="registerLink" style="display:none;">
+      New user? <a href="pages/register.html">Create an account →</a>
+    </div>
+    <div class="back-link" onclick="goBack()">← Back to role selection</div>
+  </div>
+</div>
+
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+<script>
+  seedData();
+  const s = getSession();
+  if (s) {
+    window.location.href = s.role === 'admin' ? 'pages/admin.html' : 'pages/dashboard.html';
+  }
+</script>
+</body>
+</html>
