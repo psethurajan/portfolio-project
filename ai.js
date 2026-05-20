@@ -1,7 +1,3 @@
-/* ============================================================
-   ai.js — AI Smart Suggestion Engine
-   ============================================================ */
-
 const AI_RULES = [
   {
     keywords: ['network','internet','wifi','connection','slow','down','offline','broadband','router'],
