@@ -1,7 +1,3 @@
-/* ============================================================
-   complaint.js — Complaint CRUD Operations
-   ============================================================ */
-
 let currentComplaintId = null;
 let currentSession     = null;
 
